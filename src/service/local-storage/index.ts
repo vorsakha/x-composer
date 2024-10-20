@@ -10,6 +10,14 @@ const LocalStorageService = {
 
     localStorage.setItem("threads", JSON.stringify(existingThreads));
   },
+  deleteThread(name: string) {
+    const existingThreads = this.getThreads() || [];
+    const filteredThreads = existingThreads.filter(
+      (thread) => thread.name !== name,
+    );
+
+    localStorage.setItem("threads", JSON.stringify(filteredThreads));
+  },
 };
 
 export { LocalStorageService };
