@@ -30,7 +30,7 @@ Make sure you have the following installed on your local machine:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/x-composer.git
+    git clone https://github.com/vorsakha/x-composer.git
     cd x-composer 
     ```
 2. Install dependencies:
