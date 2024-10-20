@@ -1,5 +1,5 @@
-import { Card, CardContent } from "@/components/ui/card";
-import ThreadForm from "./lib/thread-form";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import ThreadForm from "@/app/app/lib/thread-form";
 
 export default function Compose() {
   return (
@@ -8,7 +8,10 @@ export default function Compose() {
         Thread Composer
       </h2>
       <Card>
-        <CardContent className="pt-6">
+        <CardHeader>
+          <CardTitle>New Thread</CardTitle>
+        </CardHeader>
+        <CardContent>
           <ThreadForm />
         </CardContent>
       </Card>
