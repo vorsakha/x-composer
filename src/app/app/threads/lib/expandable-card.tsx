@@ -157,6 +157,13 @@ export function ExpandableCard() {
           </motion.div>
         ))}
       </ul>
+      {!cards.length && (
+        <div className="flex flex-col items-center justify-center gap-4 text-center">
+          <div className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400">
+            <p>No threads found.</p>
+          </div>
+        </div>
+      )}
     </>
   );
 }
