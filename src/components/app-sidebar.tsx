@@ -1,5 +1,6 @@
 import { ExitIcon } from "@radix-ui/react-icons";
 import { Layers, Pen } from "lucide-react";
+import Link from "next/link";
 
 import {
   Sidebar,
@@ -10,7 +11,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import Link from "next/link";
 import Routes from "@/routes/routes";
 
 // Menu items.

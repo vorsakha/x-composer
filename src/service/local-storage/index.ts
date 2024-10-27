@@ -15,19 +15,14 @@ const LocalStorageService = {
   deleteThread(name: string) {
     const existingThreads = this.getThreads() || [];
     const filteredThreads = existingThreads.filter(
-      (thread) => thread.name !== name
+      (thread) => thread.name !== name,
     );
 
     localStorage.setItem("threads", JSON.stringify(filteredThreads));
   },
-  getThread(id: string): Thread | null {
+  getThread(id?: string): Thread | undefined {
     const existingThreads = this.getThreads() || [];
     const thread = existingThreads.find((t) => t.id === id);
-
-    if (!thread) {
-      toast("Thread not found!");
-      return null;
-    }
 
     return thread;
   },

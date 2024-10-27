@@ -1,4 +1,4 @@
-import { HomeBackground } from "./lib/home-background";
+import { HomeBackground } from "@/app/lib/home-background";
 
 export default function Home() {
   return <HomeBackground />;

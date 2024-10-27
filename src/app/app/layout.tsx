@@ -1,7 +1,8 @@
+import type { Metadata } from "next";
+
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
-import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "x-composer app",

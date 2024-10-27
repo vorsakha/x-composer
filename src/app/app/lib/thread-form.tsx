@@ -23,7 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { LocalStorageService } from "@/service/local-storage";
 
 interface ThreadFormProps {
-  selectedThreadId: string;
+  selectedThreadId?: string;
 }
 
 export default function ThreadForm({ selectedThreadId }: ThreadFormProps) {

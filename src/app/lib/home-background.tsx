@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
+import React from "react";
+
 import { BackgroundLines } from "@/components/ui/lines-background";
 
 export function HomeBackground() {
