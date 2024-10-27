@@ -11,7 +11,7 @@
 ## Tech Stack
 
 - Next.js: The React framework for building the app.
-- React: Frontend framework for building user interfaces.
+- React: Frontend library for building user interfaces.
 - Zod: For schema validation and form management.
 - React Hook Form: For handling form validation and state.
 - TypeScript: For type safety across the project.
