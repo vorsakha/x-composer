@@ -3,6 +3,7 @@
 import { z } from "zod";
 
 const formSchema = z.object({
+  id: z.string().uuid(),
   name: z.string().min(1, "A Thread name is required").max(50).trim(),
   thread: z.array(
     z.object({

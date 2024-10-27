@@ -1,8 +1,14 @@
 "use client";
 
-import { useFieldArray, useForm } from "react-hook-form";
-import { FormSchema, formSchema } from "./form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { PlusCircle, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { v4 as uuid } from "uuid";
+
+import { FormSchema, formSchema } from "@/app/app/lib/form-schema";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,18 +19,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { PlusCircle, X } from "lucide-react";
-import { toast } from "sonner";
 import { LocalStorageService } from "@/service/local-storage";
 
-export default function ThreadForm() {
+interface ThreadFormProps {
+  selectedThreadId: string;
+}
+
+export default function ThreadForm({ selectedThreadId }: ThreadFormProps) {
+  const selectedThread = LocalStorageService.getThread(selectedThreadId);
+
+  const router = useRouter();
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      thread: [
+      id: selectedThread?.id ?? uuid(),
+      name: selectedThread?.name ?? "",
+      thread: selectedThread?.thread ?? [
         {
           id: 0,
           tweet: "",
@@ -42,7 +53,6 @@ export default function ThreadForm() {
     const thread = form.watch("thread");
     const lastTweet = thread[fields.length - 1];
     const canBeAppended = lastTweet?.tweet.trim() !== "";
-    console.log(lastTweet);
 
     if (canBeAppended) {
       append({
@@ -55,9 +65,16 @@ export default function ThreadForm() {
   };
 
   const onSubmit = (values: FormSchema) => {
-    LocalStorageService.setThreads(values);
-    form.reset();
-    toast("Thread successfully saved!");
+    if (selectedThread) {
+      LocalStorageService.updateThread(selectedThread.id, values);
+
+      router.push("/app/threads");
+    } else {
+      LocalStorageService.setThreads(values);
+
+      toast("Thread successfully saved!");
+      form.reset();
+    }
   };
 
   return (
@@ -82,9 +99,9 @@ export default function ThreadForm() {
           />
 
           <div className="space-y-6">
-            {fields.map((field, index) => (
+            {fields.map((f, index) => (
               <FormField
-                key={field.id}
+                key={f.id}
                 control={form.control}
                 name={`thread.${index}.tweet`}
                 render={({ field }) => (

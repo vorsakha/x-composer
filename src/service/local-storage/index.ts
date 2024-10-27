@@ -1,10 +1,12 @@
-import { FormSchema as Threads } from "@/app/app/lib/form-schema";
+import { toast } from "sonner";
+
+import { FormSchema as Thread } from "@/app/app/lib/form-schema";
 
 const LocalStorageService = {
-  getThreads(): Threads[] {
+  getThreads(): Thread[] {
     return JSON.parse(localStorage.getItem("threads") || "[]");
   },
-  setThreads(threads: Threads) {
+  setThreads(threads: Thread) {
     const existingThreads = this.getThreads() || [];
     existingThreads.push(threads);
 
@@ -13,10 +15,40 @@ const LocalStorageService = {
   deleteThread(name: string) {
     const existingThreads = this.getThreads() || [];
     const filteredThreads = existingThreads.filter(
-      (thread) => thread.name !== name,
+      (thread) => thread.name !== name
     );
 
     localStorage.setItem("threads", JSON.stringify(filteredThreads));
+  },
+  getThread(id: string): Thread | null {
+    const existingThreads = this.getThreads() || [];
+    const thread = existingThreads.find((t) => t.id === id);
+
+    if (!thread) {
+      toast("Thread not found!");
+      return null;
+    }
+
+    return thread;
+  },
+  updateThread(id: string, thread: Thread) {
+    const existingThreads = this.getThreads() || [];
+    const threadIndex = existingThreads.findIndex((t) => t.id === id);
+
+    if (threadIndex === -1) {
+      toast("Thread not found!");
+      return null;
+    }
+
+    const updatedThreads = existingThreads.map((t) => {
+      if (t.id === id) {
+        return thread;
+      }
+      return t;
+    });
+
+    toast("Thread successfully saved!");
+    return localStorage.setItem("threads", JSON.stringify(updatedThreads));
   },
 };
 

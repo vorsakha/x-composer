@@ -1,23 +1,55 @@
 "use client";
 
-import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useOutsideClick } from "@/hooks/use-outside-click";
-import { FormSchema as Threads } from "@/app/app/lib/form-schema";
-import { LocalStorageService } from "@/service/local-storage";
-import { Card, CardContent } from "@/components/ui/card";
+import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
+
+import { FormSchema as Threads } from "@/app/app/lib/form-schema";
+import { Card, CardContent } from "@/components/ui/card";
+import { useOutsideClick } from "@/hooks/use-outside-click";
+import { LocalStorageService } from "@/service/local-storage";
+
+export function CloseIcon() {
+  return (
+    <motion.svg
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: 1,
+      }}
+      exit={{
+        opacity: 0,
+        transition: {
+          duration: 0.05,
+        },
+      }}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-4 w-4 text-black"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M18 6l-12 12" />
+      <path d="M6 6l12 12" />
+    </motion.svg>
+  );
+}
 
 export function ExpandableCard() {
   const [active, setActive] = useState<Threads | [number] | boolean | null>(
-    null,
+    null
   );
   const ref = useRef<HTMLDivElement>(null);
   const id = useId();
 
-  const cards = useMemo(() => {
-    return LocalStorageService.getThreads();
-  }, [active]);
+  const cards = useMemo(() => LocalStorageService.getThreads(), [active]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -98,7 +130,7 @@ export function ExpandableCard() {
                   <div className="flex gap-2">
                     <motion.a
                       layoutId={`anchor-${(active as Threads).name}-${id}`}
-                      href={`thread/${(active as Threads).name}`}
+                      href={`threads/${(active as Threads).id}`}
                       className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
                     >
                       Edit Thread
@@ -122,8 +154,8 @@ export function ExpandableCard() {
                     exit={{ opacity: 0 }}
                     className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400"
                   >
-                    {(active as Threads).thread.map((t, index) => (
-                      <p key={index}>{t.tweet}</p>
+                    {(active as Threads).thread.map((t) => (
+                      <p key={t.tweet}>{t.tweet}</p>
                     ))}
                   </motion.div>
                 </div>
@@ -167,36 +199,3 @@ export function ExpandableCard() {
     </>
   );
 }
-
-export const CloseIcon = () => {
-  return (
-    <motion.svg
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-        transition: {
-          duration: 0.05,
-        },
-      }}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-4 w-4 text-black"
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M18 6l-12 12" />
-      <path d="M6 6l12 12" />
-    </motion.svg>
-  );
-};
